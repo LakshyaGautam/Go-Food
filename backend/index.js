@@ -1,7 +1,7 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
-const cors = require('cors');
 
 global.foodData = [];
 global.foodCategory = [];
@@ -13,11 +13,13 @@ require('./db')(function call(err, data, CatData) {
     }
     global.foodData = data;
     global.foodCategory = CatData;
-    console.log('Data loaded successfully'); // Add a log to confirm data load
+    console.log('Data loaded successfully'); // Log to confirm data load
 });
 
+// Define allowed origins
 const allowedOrigins = ['http://localhost:3000', 'https://go-food-ebon.vercel.app'];
 
+// CORS configuration
 app.use(cors({
     origin: function (origin, callback) {
         // Allow requests with no origin (like mobile apps or curl requests)
@@ -27,23 +29,19 @@ app.use(cors({
             return callback(new Error(msg), false);
         }
         return callback(null, true);
-    }
+    },
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Allow specific HTTP methods
+    preflightContinue: false,
+    optionsSuccessStatus: 204 // Respond with 204 for preflight requests
 }));
 
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "https://go-food-ebon.vercel.app");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-});
 app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
+// Use the Auth routes
 app.use('/api/auth', require('./Routes/Auth'));
 
 app.listen(port, () => {
