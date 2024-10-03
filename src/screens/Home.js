@@ -17,8 +17,8 @@ export default function Home() {
         });
         response = await response.json();
         console.log(response); // Log the response
-        setFoodItems(response[0] || []); // Set to empty array if undefined
-        setFoodCat(response[1] || []); // Set to empty array if undefined
+        setFoodItems(response[0]); // Set to empty array if undefined
+        setFoodCat(response[1]); // Set to empty array if undefined
     }
 
     useEffect(() => {
@@ -38,14 +38,14 @@ export default function Home() {
                 </div>
             </div>
             <div className='container'>
-                {Array.isArray(foodCat) && foodCat.length > 0 ? foodCat.map((data) => {
+                {foodCat !== [] ? foodCat.map((data) => {
                     return (
                         <div key={data._id} className='row mb-3'>
                             <div className='fs-3 m-3'>
                                 {data.CategoryName}
                             </div>
                             <hr id="hr-success" style={{ height: "4px", backgroundImage: "-webkit-linear-gradient(left,rgb(0, 255, 137),rgb(0, 0, 0))" }} />
-                            {Array.isArray(foodItems) && foodItems.length > 0 ? foodItems.filter(
+                            {foodItems !== [] ? foodItems.filter(
                                 (items) => (items.CategoryName === data.CategoryName) && (items.name.toLowerCase().includes(search.toLowerCase()))
                             ).map(filterItems => {
                                 return (
