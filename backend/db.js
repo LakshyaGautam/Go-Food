@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const mongoURI = 'mongodb://GoFood:mern123@cluster0-shard-00-00.x0jtu.mongodb.net:27017,cluster0-shard-00-01.x0jtu.mongodb.net:27017,cluster0-shard-00-02.x0jtu.mongodb.net:27017/gofoodmern?ssl=true&replicaSet=atlas-alokjy-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0'
 // mongodb://<username>:<password>@merncluster-shard-00-00.d1d4z.mongodb.net:27017,merncluster-shard-00-01.d1d4z.mongodb.net:27017,merncluster-shard-00-02.d1d4z.mongodb.net:27017/?ssl=true&replicaSet=atlas-eusy5p-shard-0&authSource=admin&retryWrites=true&w=majority
 module.exports = function (callback) {
-    mongoose.connect(mongoURI, { useNewUrlParser: true }, async (err, result) => {
+    mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, async (err, result) => {
         // mongoDbClient.connect(mongoURI, { useNewUrlParser: true }, async(err, result) => {
         if (err) console.log("---" + err)
         else {
