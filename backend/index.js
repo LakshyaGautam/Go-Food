@@ -3,6 +3,19 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
 
+global.foodData = [];
+global.foodCategory = [];
+
+require('./db')(function call(err, data, CatData) {
+    if (err) {
+        console.log(err);
+        return;
+    }
+    global.foodData = data;
+    global.foodCategory = CatData;
+    console.log('Data loaded successfully'); // Log to confirm data load
+});
+
 // Define allowed origins
 const allowedOrigins = [
     'http://localhost:3000', // For local development
